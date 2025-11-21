@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HoopZone — your source for basketball training, news, and community.">
+    <title>HoopZone | Basketball Website</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f3f3f3;
+            color: #222;
+        }
+
+        header {
+            background: #111;
+            color: white;
+            padding: 15px 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .navbar a.active {
+            border-bottom: 2px solid #f39c12;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 28px;
+            color: white;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px;
+            background: #222;
+            color: white;
+        }
+
+        .content {
+            padding: 30px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .image {
+            width: 100%;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+        .services li {
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #111;
+            color: white;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        /* Mobile */
+        @media(max-width: 768px) {
+            .navbar ul {
+                display: none;
+                flex-direction: column;
+                background: #222;
+                padding: 15px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        /* Page switching */
+        .page {
+            display: none;
+        }
+
+        .page.active-page {
+            display: block;
+        }
+
+        nav ul li {
+            cursor: pointer;
+        }
+    </style>
+
+
+    <script>
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+            document.getElementById(page).classList.add('active-page');
+
+            document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+            document.getElementById("link-" + page).classList.add('active');
+        }
+
+      
+        function toggleMenu() {
+            const nav = document.getElementById("nav-links");
+            nav.style.display = nav.style.display === "flex" ? "none" : "flex";
+        }
+
+       
+        window.onload = function () {
+            const hour = new Date().getHours();
+            const greet = document.getElementById("greeting");
+            const year = document.getElementById("year");
+
+            if (hour < 12) greet.textContent = "Good Morning, Baller!";
+            else if (hour < 18) greet.textContent = "Ready to Hoop this Afternoon?";
+            else greet.textContent = "Good Evening, Basketball Fan!";
+
+            year.textContent = new Date().getFullYear();
+
+            showPage("home"); // default page
+        };
+
+
+        function validateForm() {
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let message = document.getElementById("message").value.trim();
+            let error = document.getElementById("error");
+
+            if (name === "" || email === "" || message === "") {
+                error.textContent = "All fields are required.";
+                return false;
+            }
+
+            if (!email.includes("@")) {
+                error.textContent = "Please enter a valid email.";
+                return false;
+            }
+
+            error.textContent = "Message sent successfully!";
+            error.style.color = "green";
+            return false; // stops actual submission
+        }
+    </script>
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+        <h1 class="logo">HoopZone</h1>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <ul id="nav-links">
+            <li><a id="link-home" onclick="showPage('home')">Home</a></li>
+            <li><a id="link-about" onclick="showPage('about')">About</a></li>
+            <li><a id="link-contact" onclick="showPage('contact')">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section id="home" class="page">
+    <div class="hero">
+        <h2 id="greeting"></h2>
+        <p>The home of basketball enthusiasts, players, and fans.</p>
+    </div>
+
+    <div class="content">
+        <h3>Why Basketball?</h3>
+        <p>
+            Basketball is more than a game — it's teamwork, discipline, and passion. Whether you’re a casual fan 
+            or a competitive player, HoopZone brings you closer to the sport you love.
+        </p>
+
+        <img src="https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg" 
+             alt="Basketball court" class="image">
+    </div>
+</section>
+
+<section id="about" class="page">
+    <div class="content">
+        <h2>About HoopZone</h2>
+        <p>We are dedicated to helping players and fans grow their love for basketball.</p>
+
+        <h3>What We Offer</h3>
+        <ul class="services">
+            <li>🏀 <strong>Skills Training</strong> – Shooting, dribbling, defense</li>
+            <li>📢 <strong>Basketball News</strong> – NBA, PBA, college leagues</li>
+            <li>🏆 <strong>Community Tournaments</strong> – Local leagues and events</li>
+            <li>🎥 <strong>Video Tutorials</strong> – Learn from certified coaches</li>
+        </ul>
+    </div>
+</section>
+
+<section id="contact" class="page">
+    <div class="content">
+        <h2>Contact Us</h2>
+        <p>Have questions about basketball training or events? Send us a message!</p>
+
+        <form id="contactForm" onsubmit="return validateForm()">
+            <label>Name:</label>
+            <input type="text" id="name" placeholder="Your full name">
+
+            <label>Email:</label>
+            <input type="email" id="email" placeholder="you@example.com">
+
+            <label>Message:</label>
+            <textarea id="message" placeholder="Write your message..."></textarea>
+
+            <button type="submit">Submit</button>
+            <p id="error" class="error"></p>
+        </form>
+    </div>
+</section>
+
+<footer>
+    <p>© <span id="year"></span> HoopZone. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>
